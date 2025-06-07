@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 import { JwtAdapter } from './jwt.adapter';
 import { IJwtGenerateTokensToken } from '../interfaces/jwt/jwt.interface';
-import { JwtService } from '@nestjs/jwt';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 
 @Module({
+  imports: [JwtModule.register({})],
   providers: [
     JwtService,
     {
