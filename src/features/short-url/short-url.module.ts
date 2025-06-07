@@ -12,6 +12,8 @@ import { ListUrlsByUserService } from './services/list-urls-by-user.service';
 import { IListUrlsByUserServiceToken } from './interfaces/services/list-url-service.interface';
 import { UpdateUrlService } from './services/update-url.service';
 import { IUpdateUrlServiceToken } from './interfaces/services/update-url-service.interface';
+import { IIncrementClickServiceToken } from './interfaces/services/increment-clicks-service.interface';
+import { IncrementClickService } from './services/increment-clicks.service';
 
 @Module({
   imports: [UserModule, ShortUrlDatabaseModule],
@@ -36,6 +38,10 @@ import { IUpdateUrlServiceToken } from './interfaces/services/update-url-service
     {
       provide: IDeleteUrlServiceToken,
       useClass: DeleteUrlService
+    },
+    {
+      provide: IIncrementClickServiceToken,
+      useClass: IncrementClickService
     }
   ],
   exports: []

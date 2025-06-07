@@ -1,6 +1,6 @@
 import { Controller, Post, Body, Req, UseGuards, Inject, Get, Param, Patch, Delete, Res } from '@nestjs/common';
 import { CreateShortUrlDto } from './dto/create-short-url.dto';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { ICreateShortUrlService, ICreateShortUrlServiceToken } from './interfaces/services/create-short-url-service.interface';
 import { AccessTokenGuard, OptionalAuthGuard } from 'src/common/guards/access-token.guard';
 import { IListUrlsByUserService, IListUrlsByUserServiceToken } from './interfaces/services/list-url-service.interface';
@@ -9,6 +9,7 @@ import { IUpdateUrlService, IUpdateUrlServiceToken } from './interfaces/services
 import { UpdateShortUrlDto } from './dto/update-short-url.dto';
 import { UnauthorizedError } from 'src/common/errors/unauthorized-error/unauthorized-error';
 import { User } from '../user/user.entity';
+import { IIncrementClickService, IIncrementClickServiceToken } from './interfaces/services/increment-clicks-service.interface';
 
 @Controller('short-url')
 export class ShortUrlController {
@@ -24,6 +25,9 @@ export class ShortUrlController {
 
     @Inject(IUpdateUrlServiceToken)
     private readonly updateService: IUpdateUrlService,
+
+    @Inject(IIncrementClickServiceToken)
+    private readonly incrementClickService: IIncrementClickService
   ) {}
 
   @Post()
@@ -61,5 +65,12 @@ export class ShortUrlController {
     await this.deleteService.execute(id, user.id);
 
     return { message: 'URL excluída com sucesso' };
+  }
+
+  @Get(':code')
+  async redirect(@Param('code') code: string, @Res() res: Response) {
+    const url = await this.incrementClickService.execute(code);
+
+    return res.redirect(url.originalUrl);
   }
 }

@@ -2,7 +2,6 @@ import {
   Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn 
 } from "typeorm";
 import { User } from 'src/features/user/user.entity';
-import { Click } from "../clicks/click.entity";
 
 @Entity('short_urls')
 export class ShortUrl {
@@ -33,7 +32,4 @@ export class ShortUrl {
 
   @DeleteDateColumn({ nullable: true })
   deletedAt?: Date;
-
-  @OneToMany(() => Click, (click) => click.shortUrl)
-  clicksLog: Click[];
 }
