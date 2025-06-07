@@ -6,7 +6,6 @@ import { User } from "../user.entity";
 import { UserDatabaseModel } from "../interfaces/entities/user-db.entity";
 import { IFindOneUserRepository } from "../interfaces/repositories/load-user-by-param-repository.interface";
 
-
 @Injectable()
 export class UserRepository implements ICreateUserRepository, IFindOneUserRepository {
   constructor(
@@ -14,7 +13,6 @@ export class UserRepository implements ICreateUserRepository, IFindOneUserReposi
     private readonly userRepository: Repository<User>
   ) {}
   
-
   async createUser (data: CreateUserRepositoryParams): Promise<UserDatabaseModel | null> {
     const user = this.userRepository.create(data)
 

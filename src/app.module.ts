@@ -6,6 +6,7 @@ import { DatabaseConfigService } from './config/database.config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 import { AuthModule } from './features/auth/auth.module';
+import { ShortUrlModule } from './features/short-url/short-url.module';
 
 @Module({
   imports: [
@@ -15,7 +16,7 @@ import { AuthModule } from './features/auth/auth.module';
     TypeOrmModule.forRootAsync({
       useClass: DatabaseConfigService
     }),
-    UserModule, AuthModule
+    UserModule, AuthModule, ShortUrlModule
   ],
   controllers: [],
   providers: [
