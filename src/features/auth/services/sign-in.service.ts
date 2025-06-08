@@ -1,8 +1,8 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { ISignInService, UserSignInParams, UserSignInResponse } from "../interfaces/sign-in-service.interface";
-import { IGetUserByParamService, IGetUserByParamServiceToken } from "src/features/user/interfaces/services/get-user-by-param.interface";
-import { IHashComparer, IHashComparerToken } from "src/features/user/interfaces/hasher/hasher.interface";
-import { UnauthorizedError } from "src/common/errors/unauthorized-error/unauthorized-error";
+import { IGetUserByParamService, IGetUserByParamServiceToken } from "../../user/interfaces/services/get-user-by-param.interface";
+import { IHashComparer, IHashComparerToken } from "../../user/interfaces/hasher/hasher.interface";
+import { UnauthorizedError } from "../../../common/errors/unauthorized-error/unauthorized-error";
 import { IJwtGenerateTokens, IJwtGenerateTokensToken } from "../interfaces/jwt/jwt.interface";
 
 @Injectable()
