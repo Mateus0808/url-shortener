@@ -1,7 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { IListUrlsByUserService, IListUrlsByUserServiceToken } from "../interfaces/services/list-url-service.interface";
+import { IListUrlsByUserService } from "../interfaces/services/list-url-service.interface";
 import { ShortUrlResponse } from "../interfaces/services/get-url-by-param-service.interface";
-import { User } from "src/features/user/user.entity";
 import { IListUrlsRepository, IListUrlsRepositoryToken } from "../interfaces/repositories/list-url-repository.interface";
 import { mapToShortUrlResponse } from "../mapper/short-url.mapper";
 
