@@ -1,0 +1,27 @@
+# Node modules (instalado no container)
+node_modules
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+
+# Build/output
+dist
+coverage
+*.tsbuildinfo
+
+# Configurações locais
+.vscode
+.idea
+
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile
+docker-compose.yml
+
+# Outros arquivos que não precisam ir para a imagem
+README.md
+LICENSE
