@@ -72,7 +72,7 @@ $ npm install
 
 **3. Configurar as variáveis de ambiente**
 ```
-DB_HOST=db
+DB_HOST=localhost
 DB_PORT=5432
 DB_USERNAME=postgres
 DB_PASSWORD=password
