@@ -40,7 +40,13 @@ import {
   IIncrementClickService,
   IIncrementClickServiceToken,
 } from './interfaces/services/increment-clicks-service.interface';
-import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+} from '@nestjs/swagger';
 import { ShortUrlResponseDto } from './dto/short-url-response.dto';
 
 @Controller('short-url')
@@ -65,7 +71,11 @@ export class ShortUrlController {
   @Post()
   @UseGuards(OptionalAuthGuard)
   @ApiOperation({ summary: 'Create a new shortened URL' })
-  @ApiResponse({ status: 201, description: 'URL shortened successfully', type: ShortUrlResponseDto })
+  @ApiResponse({
+    status: 201,
+    description: 'URL shortened successfully',
+    type: ShortUrlResponseDto,
+  })
   @ApiBody({ type: CreateShortUrlDto })
   async createShortUrl(@Body() dto: CreateShortUrlDto, @Req() req: Request) {
     const user = req.user as User;
@@ -76,7 +86,11 @@ export class ShortUrlController {
   @UseGuards(AccessTokenGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'List shortened URLs of authenticated user' })
-  @ApiResponse({ status: 200, description: 'List of URLs', type: [ShortUrlResponseDto] })
+  @ApiResponse({
+    status: 200,
+    description: 'List of URLs',
+    type: [ShortUrlResponseDto],
+  })
   async listUserUrls(@Req() req: Request) {
     const user = req.user as User;
     return await this.listService.execute(user.id);
@@ -87,7 +101,11 @@ export class ShortUrlController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Update a shortened URL' })
   @ApiParam({ name: 'id', description: 'URL ID' })
-  @ApiResponse({ status: 200, description: 'URL updated successfully', type: ShortUrlResponseDto })
+  @ApiResponse({
+    status: 200,
+    description: 'URL updated successfully',
+    type: ShortUrlResponseDto,
+  })
   async updateUrl(
     @Param('id') id: string,
     @Body() dto: UpdateShortUrlDto,

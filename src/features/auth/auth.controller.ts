@@ -18,9 +18,9 @@ export class AuthController {
   @ApiOperation({ summary: 'Authenticates a user and returns the JWT token' })
   @ApiResponse({
     status: 201,
-    description: 'User authenticated successfully'
+    description: 'User authenticated successfully',
   })
-  @ApiResponse({ status: 401, description: 'Invalid credentials'  })
+  @ApiResponse({ status: 401, description: 'Invalid credentials' })
   @ApiBody({ type: SignInResponseDto })
   async signIn(@Body() signInDto: SignInDto) {
     return await this.signInService.signIn(signInDto);

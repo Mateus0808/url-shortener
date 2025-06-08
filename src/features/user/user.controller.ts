@@ -16,10 +16,10 @@ export class UserController {
 
   @Post()
   @ApiOperation({ summary: 'Create a new user' })
-  @ApiResponse({ 
-    status: 201, 
-    description: 'User created successfully', 
-    type: UserResponseDto
+  @ApiResponse({
+    status: 201,
+    description: 'User created successfully',
+    type: UserResponseDto,
   })
   @ApiResponse({ status: 400, description: 'Invalid data' })
   @ApiBody({ type: CreateUserDto })
