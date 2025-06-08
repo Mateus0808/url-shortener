@@ -5,7 +5,6 @@ import { IGetUserByParamService, IGetUserByParamServiceToken } from "../../../fe
 import { UserDatabaseModel } from "../../../features/user/interfaces/entities/user-db.entity";
 import { BadRequestError } from "../../../common/errors/bad-request-error/bad-request-error";
 import { ILoadUrlByParamRepository, ILoadUrlByParamRepositoryToken } from "../interfaces/repositories/load-url-repository.interface";
-import { User } from "../../../features/user/user.entity";
 import { mapToShortUrlResponse } from "../mapper/short-url.mapper";
 import { ShortUrlDatabase } from "../interfaces/entities/short-url-db.entity";
 import { CustomMetricsService } from "../../../features/metrics/metrics.service";

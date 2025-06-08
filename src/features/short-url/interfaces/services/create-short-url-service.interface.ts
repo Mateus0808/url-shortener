@@ -1,4 +1,3 @@
-import { User } from "src/features/user/user.entity";
 import { CreateShortUrlDto } from "../../dto/create-short-url.dto";
 import { ShortUrlDatabase } from "../entities/short-url-db.entity";
 

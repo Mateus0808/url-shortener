@@ -33,13 +33,18 @@ describe('GetUserService', () => {
   };
 
   it('should return the user normally if found', async () => {
-    const { password, ...userWithoutPassword } = userMock;
     loadUserRepository.findOne.mockResolvedValue(userMock);
 
     const result = await service.execute({ email: 'alice@example.com' });
 
     expect(loadUserRepository.findOne).toHaveBeenCalledWith({ email: 'alice@example.com' });
-    expect(result).toEqual(userWithoutPassword);
+    expect(result).toEqual({
+      id: '1',
+      name: 'Alice',
+      email: 'alice@example.com',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
   });
 
   it('should throw NotFoundError if user not found', async () => {

@@ -1,5 +1,5 @@
 import { 
-  Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn 
+  Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn 
 } from "typeorm";
 import { User } from 'src/features/user/user.entity';
 
