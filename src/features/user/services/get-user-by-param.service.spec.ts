@@ -42,8 +42,8 @@ describe('GetUserService', () => {
       id: '1',
       name: 'Alice',
       email: 'alice@example.com',
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      createdAt: userMock.createdAt,
+      updatedAt: userMock.updatedAt
     });
   });
 
