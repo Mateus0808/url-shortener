@@ -19,21 +19,71 @@
     <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
   <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
 </p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Decrição
+A aplicação é uma API REST desenvolvida com NestJS e organizada em arquitetura vertical. Seu objetivo principal é permitir o encurtamento de URLs, com funcionalidades adicionais voltadas para controle de acesso, métricas e gerenciamento dos links gerados.
 
-## Installation
+**Funcionalidades principais:**
+**1. Cadastro e autenticação de usuários:**
+* Utiliza JWT para autenticação.
+* Usuários podem se registrar e fazer login para associar URLs encurtadas às suas contas.
 
+**2. Encurtamento de URLs:**
+* Geração de códigos curtos com até 6 caracteres.
+* Suporte a URLs anônimas (sem usuário logado) e URLs associadas a usuários autenticados.
+* Redirecionamento e contagem de acessos:
+* Cada acesso à URL curta é redirecionado para a URL original.
+* É contabilizado o número de cliques por URL.
+
+**3. Gerenciamento de URLs:**
+* Usuários autenticados podem listar, editar (URL original) e excluir logicamente suas URLs encurtadas.
+* Suporte à paginação e ordenação na listagem de URLs, incluindo total de cliques.
+
+**4. Métricas com Prometheus:**
+**Integração com @willsoto/nestjs-prometheus para exposição de métricas padrão.**
+Métricas customizadas, como:
+* Total de URLs encurtadas.
+* Total de cliques por URL.
+* Número de redirecionamentos por status HTTP.
+* Tempo médio de redirecionamento.
+
+**2. Persistência com TypeORM:**
+* Utiliza PostgreSQL como banco de dados.
+* Entidades com soft delete para manter histórico e possibilitar recuperação futura.
+
+## Tecnologias utilizadas:
+* Backend: NestJS (com módulos organizados por domínio)
+* Banco de Dados: PostgreSQL + TypeORM
+* Autenticação: JWT
+* Validação: class-validator + pipes personalizados
+* Monitoramento: Prometheus (via @willsoto/nestjs-prometheus)
+* Testes: Jest (com mocks e cobertura de serviços principais)
+
+## 🟢 Rodando Localmente (sem Docker)
+**1. Pré-requisitos**
+* Node.js 22+
+* PostgreSQL 18
+
+**2. Instalaçaõ**
 ```bash
 $ npm install
 ```
 
-## Running the app
+**3. Configurar as variáveis de ambiente**
+```
+DB_HOST=db
+DB_PORT=5432
+DB_USERNAME=postgres
+DB_PASSWORD=password
+DB_DATABASE=short_url_db
+DB_SYNC=true
+DB_LOGGING=true
 
+JWT_ACCESS_SECRET=
+```
+
+**4. Executar a aplicação**
 ```bash
 # development
 $ npm run start
@@ -44,29 +94,39 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
+* Accessar a aplicação em: ```http://localhost:3000```
 
-## Test
-
+**6. Test**
 ```bash
 # unit tests
 $ npm run test
-
-# e2e tests
-$ npm run test:e2e
 
 # test coverage
 $ npm run test:cov
 ```
 
-## Support
+## 🐳 Rodando com Docker
+**1. Pré-requisitos**
+* Docker
+* Docker Compose
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+**3. Configurar as variáveis de ambiente**
+```
+DB_HOST=db
+DB_PORT=5432
+DB_USERNAME=postgres
+DB_PASSWORD=password
+DB_DATABASE=short_url_db
+DB_SYNC=true
+DB_LOGGING=true
 
-## Stay in touch
+JWT_ACCESS_SECRET=
+```
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+**2. Suba os serviços**
+```docker compose up -d --build ```
+
+**3. A aplicação ficará disponível em:** ```http://localhost:3000```
 
 ## License
 
