@@ -1,4 +1,14 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npm test
+echo "🔍 Executando lint antes do commit..."
+
+npm run lint
+
+RESULT=$?
+if [ $RESULT -ne 0 ]; then
+  echo "❌ Commit cancelado: Lint falhou."
+  exit 1
+fi
+
+echo "✅ Lint aprovado! Prosseguindo com o commit..."

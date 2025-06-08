@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🔍 Rodando lint e testes antes do push..."
+
+npm run lint
+npm run test
+
+RESULT=$?
+if [ $RESULT -ne 0 ]; then
+  echo "❌ Push cancelado: Lint ou Testes falharam."
+  exit 1
+fi
+
+echo "✅ Tudo certo! Realizando o push..."
