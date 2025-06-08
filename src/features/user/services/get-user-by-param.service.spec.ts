@@ -1,5 +1,6 @@
+import { Test, TestingModule } from '@nestjs/testing';
 import { GetUserService } from './get-user-by-param.service';
-import { IFindOneUserRepository } from '../interfaces/repositories/load-user-by-param-repository.interface';
+import { IFindOneUserRepository, IFindOneUserRepositoryToken } from '../interfaces/repositories/load-user-by-param-repository.interface';
 import { UserDatabaseModel } from '../interfaces/entities/user-db.entity';
 import { NotFoundError } from '../../../common/errors/not-found-error/not-found-error';
 
@@ -7,12 +8,19 @@ describe('GetUserService', () => {
   let service: GetUserService;
   let loadUserRepository: jest.Mocked<IFindOneUserRepository>;
 
-  beforeEach(() => {
-    loadUserRepository = {
-      findOne: jest.fn(),
-    };
-
-    service = new GetUserService(loadUserRepository);
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        GetUserService,
+        {
+          provide: IFindOneUserRepositoryToken,
+          useValue: { findOne: jest.fn() }
+        }
+      ]
+    }).compile()
+  
+    service = module.get(GetUserService)
+    loadUserRepository = module.get(IFindOneUserRepositoryToken)
   });
 
   const userMock: UserDatabaseModel = {

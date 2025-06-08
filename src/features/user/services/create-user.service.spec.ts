@@ -1,37 +1,42 @@
 import { CreateUserService } from './create-user.service';
 import { AlreadyExistsError } from '../../../common/errors/already-exists-error/already-exists-error';
 import { BadRequestError } from '../../../common/errors/bad-request-error/bad-request-error';
-import { ICreateUserRepository } from '../interfaces/repositories/create-user-repository.interface';
-import { IFindOneUserRepository } from '../interfaces/repositories/load-user-by-param-repository.interface';
-import { IHasher } from '../interfaces/hasher/hasher.interface';
+import { ICreateUserRepository, ICreateUserRepositoryToken } from '../interfaces/repositories/create-user-repository.interface';
+import { IFindOneUserRepository, IFindOneUserRepositoryToken } from '../interfaces/repositories/load-user-by-param-repository.interface';
+import { IHasher, IHasherToken } from '../interfaces/hasher/hasher.interface';
 import { CreateUserParams } from '../interfaces/services/create-user-service.interface';
+import { Test, TestingModule } from '@nestjs/testing';
 
 describe('CreateUserService', () => {
   let service: CreateUserService
-
   let userRepository: jest.Mocked<ICreateUserRepository>
   let findOneUserRepository: jest.Mocked<IFindOneUserRepository>
   let hasher: jest.Mocked<IHasher>
 
-  beforeEach(() => {
-    userRepository = {
-      createUser: jest.fn()
-    }
-
-    findOneUserRepository = {
-      findOne: jest.fn()
-    }
-
-    hasher = {
-      hash: jest.fn()
-    }
-
-    service = new CreateUserService(
-      userRepository,
-      findOneUserRepository,
-      hasher
-    )
-  })
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        CreateUserService,
+        {
+          provide: ICreateUserRepositoryToken,
+          useValue: { createUser: jest.fn() }
+        },
+        {
+          provide: IFindOneUserRepositoryToken,
+          useValue: { findOne: jest.fn() }
+        },
+        {
+          provide: IHasherToken,
+          useValue: { hash: jest.fn() }
+        }
+      ]
+    }).compile()
+  
+    service = module.get(CreateUserService)
+    userRepository = module.get(ICreateUserRepositoryToken)
+    findOneUserRepository = module.get(IFindOneUserRepositoryToken)
+    hasher = module.get(IHasherToken)
+  });
 
   const createUserDto: CreateUserParams = {
     name: 'User Test',
