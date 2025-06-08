@@ -1,7 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { ICreateShortUrlRepository, ICreateShortUrlRepositoryToken } from "../interfaces/repositories/create-short-url-repository.interface";
 import { CreateShortUrlParams, CreateShortUrlResponse, ICreateShortUrlService } from "../interfaces/services/create-short-url-service.interface";
-import { ShortUrlResponse } from "../interfaces/services/get-url-by-param-service.interface";
 import { IGetUserByParamService, IGetUserByParamServiceToken } from "src/features/user/interfaces/services/get-user-by-param.interface";
 import { UserDatabaseModel } from "src/features/user/interfaces/entities/user-db.entity";
 import { BadRequestError } from "src/common/errors/bad-request-error/bad-request-error";
@@ -9,6 +8,7 @@ import { ILoadUrlByParamRepository, ILoadUrlByParamRepositoryToken } from "../in
 import { User } from "src/features/user/user.entity";
 import { mapToShortUrlResponse } from "../mapper/short-url.mapper";
 import { ShortUrlDatabase } from "../interfaces/entities/short-url-db.entity";
+import { CustomMetricsService } from "src/features/metrics/metrics.service";
 
 @Injectable()
 export class CreateShortUrlService implements ICreateShortUrlService {
@@ -20,12 +20,16 @@ export class CreateShortUrlService implements ICreateShortUrlService {
     private readonly shortUrlRepo: ILoadUrlByParamRepository,
 
     @Inject(IGetUserByParamServiceToken)
-    private readonly userService: IGetUserByParamService
+    private readonly userService: IGetUserByParamService,
+
+    private readonly metricsService: CustomMetricsService
   ) {}
 
   async execute(
     shortUrlDto: CreateShortUrlParams, user?: User
   ): Promise<CreateShortUrlResponse> {
+    const end = this.metricsService.startTimerForShortenRequest();
+
     let code: string;
     let exists: ShortUrlDatabase | null;
     let userExists: UserDatabaseModel | undefined
@@ -44,8 +48,13 @@ export class CreateShortUrlService implements ICreateShortUrlService {
       shortCode: code,
       user: userExists
     });
-    if (!shortUrl) throw new BadRequestError('Erro ao criar url')
+    if (!shortUrl) {
+      end()
+      throw new BadRequestError('Erro ao criar url')
+    }
 
+    this.metricsService.incrementUrlShortened();
+    end();
     return mapToShortUrlResponse(shortUrl)
   }
 

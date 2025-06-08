@@ -14,9 +14,10 @@ import { UpdateUrlService } from './services/update-url.service';
 import { IUpdateUrlServiceToken } from './interfaces/services/update-url-service.interface';
 import { IIncrementClickServiceToken } from './interfaces/services/increment-clicks-service.interface';
 import { IncrementClickService } from './services/increment-clicks.service';
+import { MetricsModule } from '../metrics/metrics.module';
 
 @Module({
-  imports: [UserModule, ShortUrlDatabaseModule],
+  imports: [UserModule, ShortUrlDatabaseModule, MetricsModule],
   controllers: [ShortUrlController],
   providers: [
     {

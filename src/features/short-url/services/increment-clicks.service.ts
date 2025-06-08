@@ -4,6 +4,7 @@ import { IGetUrlByParamService, IGetUrlByParamServiceToken, ShortUrlResponse } f
 import { IUpdateUrlRepository, IUpdateUrlRepositoryToken } from "../interfaces/repositories/update-url-repository.interface";
 import { BadRequestError } from "src/common/errors/bad-request-error/bad-request-error";
 import { mapToShortUrlResponse } from "../mapper/short-url.mapper";
+import { CustomMetricsService } from "src/features/metrics/metrics.service";
 
 @Injectable()
 export class IncrementClickService implements IIncrementClickService {
@@ -12,7 +13,9 @@ export class IncrementClickService implements IIncrementClickService {
     private readonly getUrlService: IGetUrlByParamService,
 
     @Inject(IUpdateUrlRepositoryToken)
-    private readonly updateUrlRepo: IUpdateUrlRepository
+    private readonly updateUrlRepo: IUpdateUrlRepository,
+
+    private readonly metricsService: CustomMetricsService
   ) {}
 
   async execute (shortCode: string): Promise<ShortUrlResponse> {
