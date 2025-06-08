@@ -94,7 +94,9 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
+
 * Accessar a aplicação em: ```http://localhost:3000```
+* Documentação: ```http://localhost:3000/docs```
 
 **6. Test**
 ```bash
