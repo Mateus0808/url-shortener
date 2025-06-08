@@ -40,6 +40,8 @@ import {
   IIncrementClickService,
   IIncrementClickServiceToken,
 } from './interfaces/services/increment-clicks-service.interface';
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
+import { ShortUrlResponseDto } from './dto/short-url-response.dto';
 
 @Controller('short-url')
 export class ShortUrlController {
@@ -62,6 +64,9 @@ export class ShortUrlController {
 
   @Post()
   @UseGuards(OptionalAuthGuard)
+  @ApiOperation({ summary: 'Create a new shortened URL' })
+  @ApiResponse({ status: 201, description: 'URL shortened successfully', type: ShortUrlResponseDto })
+  @ApiBody({ type: CreateShortUrlDto })
   async createShortUrl(@Body() dto: CreateShortUrlDto, @Req() req: Request) {
     const user = req.user as User;
     return await this.createService.execute(dto, user?.id);
@@ -69,6 +74,9 @@ export class ShortUrlController {
 
   @Get()
   @UseGuards(AccessTokenGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'List shortened URLs of authenticated user' })
+  @ApiResponse({ status: 200, description: 'List of URLs', type: [ShortUrlResponseDto] })
   async listUserUrls(@Req() req: Request) {
     const user = req.user as User;
     return await this.listService.execute(user.id);
@@ -76,6 +84,10 @@ export class ShortUrlController {
 
   @Patch(':id')
   @UseGuards(AccessTokenGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Update a shortened URL' })
+  @ApiParam({ name: 'id', description: 'URL ID' })
+  @ApiResponse({ status: 200, description: 'URL updated successfully', type: ShortUrlResponseDto })
   async updateUrl(
     @Param('id') id: string,
     @Body() dto: UpdateShortUrlDto,
@@ -91,6 +103,10 @@ export class ShortUrlController {
 
   @Delete(':id')
   @UseGuards(AccessTokenGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Remove a shortened URL' })
+  @ApiParam({ name: 'id', description: 'URL ID' })
+  @ApiResponse({ status: 200, description: 'URL deleted successfully' })
   async deleteUrl(@Param('id') id: string, @Req() req: Request) {
     const user = req.user as User;
     if (!user) throw new UnauthorizedError('Usuário precisa está autenticado');
@@ -101,6 +117,9 @@ export class ShortUrlController {
   }
 
   @Get(':code')
+  @ApiOperation({ summary: 'Redirects the shortcode to the original URL' })
+  @ApiParam({ name: 'code', description: 'URL Shortcode' })
+  @ApiResponse({ status: 302, description: 'Redirection successful' })
   async redirect(@Param('code') code: string, @Res() res: Response) {
     const url = await this.incrementClickService.execute(code);
 
