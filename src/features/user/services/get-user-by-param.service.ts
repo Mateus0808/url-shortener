@@ -1,8 +1,8 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { IFindOneUserRepository, IFindOneUserRepositoryToken } from "../interfaces/repositories/load-user-by-param-repository.interface";
-import { IGetUserByParamService, UserResponse } from "../interfaces/services/get-user-by-param.interface";
+import { IGetUserByParamService } from "../interfaces/services/get-user-by-param.interface";
 import { UserDatabaseModel } from "../interfaces/entities/user-db.entity";
-import { NotFoundError } from "src/common/errors/not-found-error/not-found-error";
+import { NotFoundError } from "../../../common/errors/not-found-error/not-found-error";
 import { mapToUserResponse } from "../mappers/user.mapper";
 
 @Injectable()
@@ -32,6 +32,6 @@ export class GetUserService implements IGetUserByParamService {
       return user as Required<Pick<UserDatabaseModel, 'password'>> & Partial<UserDatabaseModel>;
     }
 
-    return user;
+    return mapToUserResponse(user);
   }
 }
