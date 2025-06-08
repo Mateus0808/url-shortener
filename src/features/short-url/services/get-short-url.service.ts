@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { GetUrlByParams, IGetUrlByParamService, ShortUrlResponse } from "../interfaces/services/get-url-by-param-service.interface";
 import { ILoadUrlByParamRepository, ILoadUrlByParamRepositoryToken } from "../interfaces/repositories/load-url-repository.interface";
-import { NotFoundError } from "src/common/errors/not-found-error/not-found-error";
+import { NotFoundError } from "../../../common/errors/not-found-error/not-found-error";
 import { mapToShortUrlResponse } from "../mapper/short-url.mapper";
 
 @Injectable()
