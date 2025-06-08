@@ -9,7 +9,7 @@ export interface CreateShortUrlResponse extends Omit<ShortUrlDatabase, 'shortCod
 }
 
 export interface ICreateShortUrlService {
-  execute: (shortUrlDto: CreateShortUrlParams, user?: Express.User) => Promise<CreateShortUrlResponse>
+  execute: (shortUrlDto: CreateShortUrlParams, userId?: string) => Promise<CreateShortUrlResponse>
 }
 
 export const ICreateShortUrlServiceToken = 'ICreateShortUrlServiceToken'

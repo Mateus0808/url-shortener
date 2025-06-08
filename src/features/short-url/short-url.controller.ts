@@ -33,8 +33,8 @@ export class ShortUrlController {
   @Post()
   @UseGuards(OptionalAuthGuard)
   async createShortUrl(@Body() dto: CreateShortUrlDto, @Req() req: Request) {
-    const user = req.user;
-    return await this.createService.execute(dto, user);
+    const user = req.user as User;
+    return await this.createService.execute(dto, user.id);
   }
 
   @Get()

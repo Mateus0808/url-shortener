@@ -1,14 +1,14 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { ICreateShortUrlRepository, ICreateShortUrlRepositoryToken } from "../interfaces/repositories/create-short-url-repository.interface";
 import { CreateShortUrlParams, CreateShortUrlResponse, ICreateShortUrlService } from "../interfaces/services/create-short-url-service.interface";
-import { IGetUserByParamService, IGetUserByParamServiceToken } from "src/features/user/interfaces/services/get-user-by-param.interface";
-import { UserDatabaseModel } from "src/features/user/interfaces/entities/user-db.entity";
-import { BadRequestError } from "src/common/errors/bad-request-error/bad-request-error";
+import { IGetUserByParamService, IGetUserByParamServiceToken } from "../../../features/user/interfaces/services/get-user-by-param.interface";
+import { UserDatabaseModel } from "../../../features/user/interfaces/entities/user-db.entity";
+import { BadRequestError } from "../../../common/errors/bad-request-error/bad-request-error";
 import { ILoadUrlByParamRepository, ILoadUrlByParamRepositoryToken } from "../interfaces/repositories/load-url-repository.interface";
-import { User } from "src/features/user/user.entity";
+import { User } from "../../../features/user/user.entity";
 import { mapToShortUrlResponse } from "../mapper/short-url.mapper";
 import { ShortUrlDatabase } from "../interfaces/entities/short-url-db.entity";
-import { CustomMetricsService } from "src/features/metrics/metrics.service";
+import { CustomMetricsService } from "../../../features/metrics/metrics.service";
 
 @Injectable()
 export class CreateShortUrlService implements ICreateShortUrlService {
@@ -26,7 +26,7 @@ export class CreateShortUrlService implements ICreateShortUrlService {
   ) {}
 
   async execute(
-    shortUrlDto: CreateShortUrlParams, user?: User
+    shortUrlDto: CreateShortUrlParams, userId?: string
   ): Promise<CreateShortUrlResponse> {
     const end = this.metricsService.startTimerForShortenRequest();
 
@@ -39,8 +39,8 @@ export class CreateShortUrlService implements ICreateShortUrlService {
       exists = await this.shortUrlRepo.findOne({ shortCode: code });
     } while (exists);
 
-    if (user) {
-      userExists = await this.userService.execute({ id: user.id }, ['password'])
+    if (userId) {
+      userExists = await this.userService.execute({ id: userId }, ['password'])
     }
 
     const shortUrl = await this.createUrlRepository.create({
