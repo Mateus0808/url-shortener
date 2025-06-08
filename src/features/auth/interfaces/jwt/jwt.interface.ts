@@ -1,15 +1,15 @@
 export interface JwtPayload {
-  id: string
-  name: string
-  email: string
-};
+  id: string;
+  name: string;
+  email: string;
+}
 
 export interface JwtTokensResponse {
-  token: string
+  token: string;
 }
 
 export interface IJwtGenerateTokens {
-  generateTokens: (payload: JwtPayload) => Promise<JwtTokensResponse>
+  generateTokens: (payload: JwtPayload) => Promise<JwtTokensResponse>;
 }
 
-export const IJwtGenerateTokensToken = 'IJwtGenerateTokensToken'
+export const IJwtGenerateTokensToken = 'IJwtGenerateTokensToken';

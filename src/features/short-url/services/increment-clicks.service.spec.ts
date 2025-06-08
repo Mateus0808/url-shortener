@@ -18,7 +18,7 @@ describe('IncrementClickService', () => {
     clicks: 5,
     createdAt: date,
     updatedAt: date,
-    userId: 'user-1'
+    userId: 'user-1',
   };
 
   const updatedUrlMock = {
@@ -30,7 +30,7 @@ describe('IncrementClickService', () => {
   beforeEach(async () => {
     getUrlService = { execute: jest.fn() };
     updateUrlRepo = { update: jest.fn() };
-    
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         IncrementClickService,

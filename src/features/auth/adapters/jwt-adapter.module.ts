@@ -9,9 +9,9 @@ import { JwtModule, JwtService } from '@nestjs/jwt';
     JwtService,
     {
       provide: IJwtGenerateTokensToken,
-      useClass: JwtAdapter
-    }
+      useClass: JwtAdapter,
+    },
   ],
-  exports: [IJwtGenerateTokensToken, JwtService]
+  exports: [IJwtGenerateTokensToken, JwtService],
 })
 export class JwtAdapterModule {}

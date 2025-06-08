@@ -1,17 +1,17 @@
-import { UserDatabaseModel } from "../entities/user-db.entity"
+import { UserDatabaseModel } from '../entities/user-db.entity';
 
 export interface UserResponse extends Partial<UserDatabaseModel> {}
 
 export interface IGetUserByParamService {
   execute(
     query: Partial<UserDatabaseModel>,
-    select: ['password', ...any[]]
+    select: ['password', ...any[]],
   ): Promise<Required<UserDatabaseModel>>;
 
   execute(
     query: Partial<UserDatabaseModel>,
-    select?: (keyof UserDatabaseModel)[]
+    select?: (keyof UserDatabaseModel)[],
   ): Promise<Partial<UserDatabaseModel>>;
 }
 
-export const IGetUserByParamServiceToken = 'IGetUserByParamServiceToken'
+export const IGetUserByParamServiceToken = 'IGetUserByParamServiceToken';

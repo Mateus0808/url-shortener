@@ -1,6 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { GetUserService } from './get-user-by-param.service';
-import { IFindOneUserRepository, IFindOneUserRepositoryToken } from '../interfaces/repositories/load-user-by-param-repository.interface';
+import {
+  IFindOneUserRepository,
+  IFindOneUserRepositoryToken,
+} from '../interfaces/repositories/load-user-by-param-repository.interface';
 import { UserDatabaseModel } from '../interfaces/entities/user-db.entity';
 import { NotFoundError } from '../../../common/errors/not-found-error/not-found-error';
 
@@ -14,13 +17,13 @@ describe('GetUserService', () => {
         GetUserService,
         {
           provide: IFindOneUserRepositoryToken,
-          useValue: { findOne: jest.fn() }
-        }
-      ]
-    }).compile()
-  
-    service = module.get(GetUserService)
-    loadUserRepository = module.get(IFindOneUserRepositoryToken)
+          useValue: { findOne: jest.fn() },
+        },
+      ],
+    }).compile();
+
+    service = module.get(GetUserService);
+    loadUserRepository = module.get(IFindOneUserRepositoryToken);
   });
 
   const userMock: UserDatabaseModel = {
@@ -37,13 +40,15 @@ describe('GetUserService', () => {
 
     const result = await service.execute({ email: 'alice@example.com' });
 
-    expect(loadUserRepository.findOne).toHaveBeenCalledWith({ email: 'alice@example.com' });
+    expect(loadUserRepository.findOne).toHaveBeenCalledWith({
+      email: 'alice@example.com',
+    });
     expect(result).toEqual({
       id: '1',
       name: 'Alice',
       email: 'alice@example.com',
       createdAt: userMock.createdAt,
-      updatedAt: userMock.updatedAt
+      updatedAt: userMock.updatedAt,
     });
   });
 
@@ -51,16 +56,20 @@ describe('GetUserService', () => {
     loadUserRepository.findOne.mockResolvedValue(null);
 
     await expect(
-      service.execute({ email: 'alice@example.com' })
+      service.execute({ email: 'alice@example.com' }),
     ).rejects.toThrow(NotFoundError);
 
-    expect(loadUserRepository.findOne).toHaveBeenCalledWith({ email: 'alice@example.com' });
+    expect(loadUserRepository.findOne).toHaveBeenCalledWith({
+      email: 'alice@example.com',
+    });
   });
 
   it('must return the user with password if requested', async () => {
     loadUserRepository.findOne.mockResolvedValue(userMock);
 
-    const result = await service.execute({ email: 'alice@example.com' }, ['password']);
+    const result = await service.execute({ email: 'alice@example.com' }, [
+      'password',
+    ]);
 
     expect(result).toEqual(userMock);
     expect(result.password).toBeDefined();

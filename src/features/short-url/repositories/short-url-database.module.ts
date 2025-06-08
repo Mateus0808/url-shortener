@@ -1,44 +1,43 @@
-import { Module } from "@nestjs/common";
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { ShortUrl } from "../short-url.entity";
-import { ICreateShortUrlRepositoryToken } from "../interfaces/repositories/create-short-url-repository.interface";
-import { ShortUrlRepository } from "./short-url.repository";
-import { ILoadUrlByParamRepositoryToken } from "../interfaces/repositories/load-url-repository.interface";
-import { IListUrlsRepositoryToken } from "../interfaces/repositories/list-url-repository.interface";
-import { IUpdateUrlRepositoryToken } from "../interfaces/repositories/update-url-repository.interface";
-import { IDeleteUrlRepositoryToken } from "../interfaces/repositories/delete-url-repository.interface";
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ShortUrl } from '../short-url.entity';
+import { ICreateShortUrlRepositoryToken } from '../interfaces/repositories/create-short-url-repository.interface';
+import { ShortUrlRepository } from './short-url.repository';
+import { ILoadUrlByParamRepositoryToken } from '../interfaces/repositories/load-url-repository.interface';
+import { IListUrlsRepositoryToken } from '../interfaces/repositories/list-url-repository.interface';
+import { IUpdateUrlRepositoryToken } from '../interfaces/repositories/update-url-repository.interface';
+import { IDeleteUrlRepositoryToken } from '../interfaces/repositories/delete-url-repository.interface';
 
 @Module({
   imports: [TypeOrmModule.forFeature([ShortUrl])],
   providers: [
     {
       provide: ICreateShortUrlRepositoryToken,
-      useClass: ShortUrlRepository
+      useClass: ShortUrlRepository,
     },
     {
       provide: ILoadUrlByParamRepositoryToken,
-      useClass: ShortUrlRepository
+      useClass: ShortUrlRepository,
     },
     {
       provide: IListUrlsRepositoryToken,
-      useClass: ShortUrlRepository
+      useClass: ShortUrlRepository,
     },
     {
       provide: IUpdateUrlRepositoryToken,
-      useClass: ShortUrlRepository
+      useClass: ShortUrlRepository,
     },
     {
       provide: IDeleteUrlRepositoryToken,
-      useClass: ShortUrlRepository
-    }
+      useClass: ShortUrlRepository,
+    },
   ],
   exports: [
-    ICreateShortUrlRepositoryToken, 
+    ICreateShortUrlRepositoryToken,
     ILoadUrlByParamRepositoryToken,
     IListUrlsRepositoryToken,
     IUpdateUrlRepositoryToken,
-    IDeleteUrlRepositoryToken
-  ]
+    IDeleteUrlRepositoryToken,
+  ],
 })
-
 export class ShortUrlDatabaseModule {}

@@ -11,16 +11,13 @@ import { IFindOneUserRepositoryToken } from '../interfaces/repositories/load-use
   providers: [
     {
       provide: ICreateUserRepositoryToken,
-      useClass: UserRepository
+      useClass: UserRepository,
     },
     {
       provide: IFindOneUserRepositoryToken,
-      useClass: UserRepository
-    }
+      useClass: UserRepository,
+    },
   ],
-  exports: [
-    ICreateUserRepositoryToken, 
-    IFindOneUserRepositoryToken 
-  ]
+  exports: [ICreateUserRepositoryToken, IFindOneUserRepositoryToken],
 })
 export class UserDatabaseModule {}

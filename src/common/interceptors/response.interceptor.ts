@@ -1,4 +1,9 @@
-import { Injectable, NestInterceptor, ExecutionContext, CallHandler } from '@nestjs/common';
+import {
+  Injectable,
+  NestInterceptor,
+  ExecutionContext,
+  CallHandler,
+} from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -14,7 +19,7 @@ export class ResponseInterceptor<T> implements NestInterceptor<T, any> {
         return {
           statusCode: response.statusCode,
           message: data?.message || 'Request processed successfully',
-          ...(isPageDto ? { ...data } : { data })
+          ...(isPageDto ? { ...data } : { data }),
         };
       }),
     );

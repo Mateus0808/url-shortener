@@ -16,17 +16,19 @@ import { MetricsModule } from './features/metrics/metrics.module';
       isGlobal: true,
     }),
     TypeOrmModule.forRootAsync({
-      useClass: DatabaseConfigService
+      useClass: DatabaseConfigService,
     }),
-    UserModule, AuthModule, ShortUrlModule, MetricsModule
+    UserModule,
+    AuthModule,
+    ShortUrlModule,
+    MetricsModule,
   ],
   controllers: [],
   providers: [
     {
       provide: APP_INTERCEPTOR,
-      useClass: ResponseInterceptor
+      useClass: ResponseInterceptor,
     },
-    
   ],
 })
 export class AppModule {}

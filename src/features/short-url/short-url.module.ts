@@ -22,30 +22,29 @@ import { MetricsModule } from '../metrics/metrics.module';
   providers: [
     {
       provide: ICreateShortUrlServiceToken,
-      useClass: CreateShortUrlService
+      useClass: CreateShortUrlService,
     },
     {
       provide: IGetUrlByParamServiceToken,
-      useClass: GetShortUrlByParamService
+      useClass: GetShortUrlByParamService,
     },
     {
       provide: IListUrlsByUserServiceToken,
-      useClass: ListUrlsByUserService
+      useClass: ListUrlsByUserService,
     },
     {
       provide: IUpdateUrlServiceToken,
-      useClass: UpdateUrlService
+      useClass: UpdateUrlService,
     },
     {
       provide: IDeleteUrlServiceToken,
-      useClass: DeleteUrlService
+      useClass: DeleteUrlService,
     },
     {
       provide: IIncrementClickServiceToken,
-      useClass: IncrementClickService
-    }
+      useClass: IncrementClickService,
+    },
   ],
-  exports: []
+  exports: [],
 })
-
 export class ShortUrlModule {}

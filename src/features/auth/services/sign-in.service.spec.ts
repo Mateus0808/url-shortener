@@ -7,26 +7,26 @@ import { IHashComparerToken } from '../../user/interfaces/hasher/hasher.interfac
 import { IJwtGenerateTokensToken } from '../interfaces/jwt/jwt.interface';
 
 describe('SignInService', () => {
-  let service: SignInService
+  let service: SignInService;
 
   const mockUser = {
     id: 'user-id',
     name: 'User Test',
     email: 'user@example.com',
-    password: 'hashed-password'
-  }
+    password: 'hashed-password',
+  };
 
   const userService = {
-    execute: jest.fn()
-  }
+    execute: jest.fn(),
+  };
 
   const hasher = {
-    compare: jest.fn()
-  }
+    compare: jest.fn(),
+  };
 
   const jwtService = {
-    generateTokens: jest.fn()
-  }
+    generateTokens: jest.fn(),
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -53,8 +53,14 @@ describe('SignInService', () => {
       password: 'correct-password',
     });
 
-    expect(userService.execute).toHaveBeenCalledWith({ email: 'user@example.com' }, ['password']);
-    expect(hasher.compare).toHaveBeenCalledWith('correct-password', 'hashed-password');
+    expect(userService.execute).toHaveBeenCalledWith(
+      { email: 'user@example.com' },
+      ['password'],
+    );
+    expect(hasher.compare).toHaveBeenCalledWith(
+      'correct-password',
+      'hashed-password',
+    );
     expect(jwtService.generateTokens).toHaveBeenCalledWith({
       id: mockUser.id,
       name: mockUser.name,
@@ -64,13 +70,21 @@ describe('SignInService', () => {
   });
 
   it('should throw UnauthorizedError if user is not found', async () => {
-    userService.execute.mockRejectedValue(new NotFoundError('Usuário não encontrado'));
+    userService.execute.mockRejectedValue(
+      new NotFoundError('Usuário não encontrado'),
+    );
 
     await expect(
-      service.signIn({ email: 'invalid@example.com', password: 'any-password' })
+      service.signIn({
+        email: 'invalid@example.com',
+        password: 'any-password',
+      }),
     ).rejects.toThrow(NotFoundError);
 
-    expect(userService.execute).toHaveBeenCalledWith({ email: 'invalid@example.com' }, ['password']);
+    expect(userService.execute).toHaveBeenCalledWith(
+      { email: 'invalid@example.com' },
+      ['password'],
+    );
   });
 
   it('should throw UnauthorizedError if password is incorrect', async () => {
@@ -78,10 +92,13 @@ describe('SignInService', () => {
     hasher.compare.mockResolvedValue(false);
 
     await expect(
-      service.signIn({ email: 'user@example.com', password: 'wrong-password' })
+      service.signIn({ email: 'user@example.com', password: 'wrong-password' }),
     ).rejects.toThrow(UnauthorizedError);
 
-    expect(hasher.compare).toHaveBeenCalledWith('wrong-password', 'hashed-password');
+    expect(hasher.compare).toHaveBeenCalledWith(
+      'wrong-password',
+      'hashed-password',
+    );
   });
 
   it('should call services with correct parameters', async () => {
@@ -89,10 +106,13 @@ describe('SignInService', () => {
     hasher.compare.mockResolvedValue(true);
     jwtService.generateTokens.mockResolvedValue({ token: 'jwt-token' });
 
-    await service.signIn({ email: 'user@example.com', password: 'correct-password' });
+    await service.signIn({
+      email: 'user@example.com',
+      password: 'correct-password',
+    });
 
     expect(userService.execute).toHaveBeenCalledTimes(1);
     expect(hasher.compare).toHaveBeenCalledTimes(1);
     expect(jwtService.generateTokens).toHaveBeenCalledTimes(1);
   });
-})
+});

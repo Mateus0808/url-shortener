@@ -17,12 +17,12 @@ describe('UpdateUrlService', () => {
     shortCode: 'abc123',
     clicks: 5,
     createdAt: new Date(),
-    updatedAt: new Date()
+    updatedAt: new Date(),
   };
 
   const updatedUrl = {
     ...existingUrl,
-    originalUrl: 'https://updated.com'
+    originalUrl: 'https://updated.com',
   };
 
   beforeEach(async () => {
@@ -33,8 +33,8 @@ describe('UpdateUrlService', () => {
       providers: [
         UpdateUrlService,
         { provide: IGetUrlByParamServiceToken, useValue: getUrlService },
-        { provide: IUpdateUrlRepositoryToken, useValue: updateUrlRepo }
-      ]
+        { provide: IUpdateUrlRepositoryToken, useValue: updateUrlRepo },
+      ],
     }).compile();
 
     service = module.get(UpdateUrlService);
@@ -46,19 +46,27 @@ describe('UpdateUrlService', () => {
 
     const result = await service.execute(
       { id: '1', data: { originalUrl: 'https://updated.com' } },
-      'user-1'
+      'user-1',
     );
 
     expect(getUrlService.execute).toHaveBeenCalledWith({ id: '1' });
-    expect(updateUrlRepo.update).toHaveBeenCalledWith('1', { originalUrl: 'https://updated.com' });
+    expect(updateUrlRepo.update).toHaveBeenCalledWith('1', {
+      originalUrl: 'https://updated.com',
+    });
     expect(result).toEqual(updatedUrl);
   });
 
   it('should throw UnauthorizedError if the user does not own the URL', async () => {
-    getUrlService.execute.mockResolvedValue({ ...existingUrl, userId: 'other-user' });
+    getUrlService.execute.mockResolvedValue({
+      ...existingUrl,
+      userId: 'other-user',
+    });
 
     await expect(
-      service.execute({ id: '1', data: { originalUrl: 'https://updated.com' } }, 'user-1')
+      service.execute(
+        { id: '1', data: { originalUrl: 'https://updated.com' } },
+        'user-1',
+      ),
     ).rejects.toThrow(UnauthorizedError);
 
     expect(updateUrlRepo.update).not.toHaveBeenCalled();
@@ -69,7 +77,10 @@ describe('UpdateUrlService', () => {
     updateUrlRepo.update.mockResolvedValue(null);
 
     await expect(
-      service.execute({ id: '1', data: { originalUrl: 'https://updated.com' } }, 'user-1')
+      service.execute(
+        { id: '1', data: { originalUrl: 'https://updated.com' } },
+        'user-1',
+      ),
     ).rejects.toThrow(BadRequestError);
   });
 });

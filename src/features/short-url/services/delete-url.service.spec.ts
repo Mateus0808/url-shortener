@@ -1,6 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { DeleteUrlService } from './delete-url.service';
-import { IGetUrlByParamServiceToken, ShortUrlResponse } from '../interfaces/services/get-url-by-param-service.interface';
+import {
+  IGetUrlByParamServiceToken,
+  ShortUrlResponse,
+} from '../interfaces/services/get-url-by-param-service.interface';
 import { IDeleteUrlRepositoryToken } from '../interfaces/repositories/delete-url-repository.interface';
 import { NotFoundError } from '../../../common/errors/not-found-error/not-found-error';
 import { UnauthorizedError } from '../../../common/errors/unauthorized-error/unauthorized-error';
@@ -17,16 +20,16 @@ describe('DeleteUrlService', () => {
     userId: 'user-1',
     clicks: 0,
     createdAt: new Date(),
-    updatedAt: new Date()
+    updatedAt: new Date(),
   };
 
   beforeEach(async () => {
     getUrlService = {
-      execute: jest.fn()
+      execute: jest.fn(),
     };
 
     urlRepo = {
-      delete: jest.fn()
+      delete: jest.fn(),
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -34,13 +37,13 @@ describe('DeleteUrlService', () => {
         DeleteUrlService,
         {
           provide: IGetUrlByParamServiceToken,
-          useValue: getUrlService
+          useValue: getUrlService,
         },
         {
           provide: IDeleteUrlRepositoryToken,
-          useValue: urlRepo
-        }
-      ]
+          useValue: urlRepo,
+        },
+      ],
     }).compile();
 
     service = module.get(DeleteUrlService);
@@ -58,21 +61,27 @@ describe('DeleteUrlService', () => {
   it('should throw NotFoundError if URL does not exist', async () => {
     getUrlService.execute.mockResolvedValue(null);
 
-    await expect(service.execute('abc123', 'user-1')).rejects.toThrow(NotFoundError);
+    await expect(service.execute('abc123', 'user-1')).rejects.toThrow(
+      NotFoundError,
+    );
     expect(urlRepo.delete).not.toHaveBeenCalled();
   });
 
   it('should throw UnauthorizedError if URL belongs to another user', async () => {
     getUrlService.execute.mockResolvedValue({ ...urlMock, userId: 'user-2' });
 
-    await expect(service.execute('abc123', 'user-1')).rejects.toThrow(UnauthorizedError);
+    await expect(service.execute('abc123', 'user-1')).rejects.toThrow(
+      UnauthorizedError,
+    );
     expect(urlRepo.delete).not.toHaveBeenCalled();
   });
 
   it('should throw UnauthorizedError if URL has no userId', async () => {
     getUrlService.execute.mockResolvedValue({ ...urlMock, userId: undefined });
 
-    await expect(service.execute('abc123', 'user-1')).rejects.toThrow(UnauthorizedError);
+    await expect(service.execute('abc123', 'user-1')).rejects.toThrow(
+      UnauthorizedError,
+    );
     expect(urlRepo.delete).not.toHaveBeenCalled();
   });
 });

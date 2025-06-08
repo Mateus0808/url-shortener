@@ -22,7 +22,7 @@ async function bootstrap() {
     new NotFoundErrorFilter(),
     new AlreadyExistsErrorFilter(),
     new UnauthorizedErrorFilter(),
-    new BadRequestErrorFilter()
+    new BadRequestErrorFilter(),
   );
 
   app.useLogger(new Logger());

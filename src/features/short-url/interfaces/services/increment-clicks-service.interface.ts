@@ -1,7 +1,7 @@
-import { ShortUrlResponse } from "./get-url-by-param-service.interface";
+import { ShortUrlResponse } from './get-url-by-param-service.interface';
 
 export interface IIncrementClickService {
-  execute: (shortCode: string) => Promise<ShortUrlResponse>
+  execute: (shortCode: string) => Promise<ShortUrlResponse>;
 }
 
-export const IIncrementClickServiceToken = 'IIncrementClickServiceToken'
+export const IIncrementClickServiceToken = 'IIncrementClickServiceToken';

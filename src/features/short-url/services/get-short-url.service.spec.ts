@@ -14,7 +14,7 @@ describe('GetShortUrlByParamService', () => {
     shortCode: 'abc123',
     clicks: 0,
     createdAt: new Date(),
-    updatedAt: new Date()
+    updatedAt: new Date(),
   };
 
   beforeEach(async () => {
@@ -48,7 +48,7 @@ describe('GetShortUrlByParamService', () => {
       originalUrl: urlMock.originalUrl,
       clicks: urlMock.clicks,
       createdAt: urlMock.createdAt,
-      updatedAt: urlMock.updatedAt
+      updatedAt: urlMock.updatedAt,
     });
   });
 
@@ -65,16 +65,16 @@ describe('GetShortUrlByParamService', () => {
       originalUrl: urlMock.originalUrl,
       clicks: urlMock.clicks,
       createdAt: urlMock.createdAt,
-      updatedAt: urlMock.updatedAt
+      updatedAt: urlMock.updatedAt,
     });
   });
 
   it('should throw NotFoundError if URL is not found - with id', async () => {
     urlRepository.findOne.mockResolvedValue(null);
 
-    await expect(
-      service.execute({ id: 'idnotfound123' })
-    ).rejects.toThrow(NotFoundError);
+    await expect(service.execute({ id: 'idnotfound123' })).rejects.toThrow(
+      NotFoundError,
+    );
 
     expect(urlRepository.findOne).toHaveBeenCalledWith({ id: 'idnotfound123' });
   });
@@ -82,10 +82,12 @@ describe('GetShortUrlByParamService', () => {
   it('should throw NotFoundError if URL is not found - with shortCode', async () => {
     urlRepository.findOne.mockResolvedValue(null);
 
-    await expect(
-      service.execute({ shortCode: 'notfound123' })
-    ).rejects.toThrow(NotFoundError);
+    await expect(service.execute({ shortCode: 'notfound123' })).rejects.toThrow(
+      NotFoundError,
+    );
 
-    expect(urlRepository.findOne).toHaveBeenCalledWith({ shortCode: 'notfound123' });
+    expect(urlRepository.findOne).toHaveBeenCalledWith({
+      shortCode: 'notfound123',
+    });
   });
 });

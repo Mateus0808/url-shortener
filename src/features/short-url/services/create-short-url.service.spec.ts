@@ -30,7 +30,7 @@ describe('CreateShortUrlService', () => {
     email: 'alice@example.com',
     password: 'hashed-pass',
     createdAt: new Date(),
-    updatedAt: new Date()
+    updatedAt: new Date(),
   };
 
   const shortUrlMock: ShortUrlDatabase = {
@@ -84,12 +84,16 @@ describe('CreateShortUrlService', () => {
     createUrlRepo.create.mockResolvedValueOnce(shortUrlMock);
 
     const result = await service.execute(
-      { originalUrl: 'https://example.com' }, 
-      'user-id'
+      { originalUrl: 'https://example.com' },
+      'user-id',
     );
 
-    expect(loadUrlRepo.findOne).toHaveBeenCalledWith({ shortCode: expect.any(String) });
-    expect(userService.execute).toHaveBeenCalledWith({ id: 'user-id' }, ['password']);
+    expect(loadUrlRepo.findOne).toHaveBeenCalledWith({
+      shortCode: expect.any(String),
+    });
+    expect(userService.execute).toHaveBeenCalledWith({ id: 'user-id' }, [
+      'password',
+    ]);
     expect(createUrlRepo.create).toHaveBeenCalledWith({
       originalUrl: 'https://example.com',
       shortCode: expect.any(String),
@@ -99,12 +103,12 @@ describe('CreateShortUrlService', () => {
     expect(stopFn).toHaveBeenCalled();
     expect(result).toEqual({
       id: '1',
-      userId: "user-id",
+      userId: 'user-id',
       originalUrl: 'https://example.com',
       shortenerUrl: 'http://localhost/abc123',
       clicks: 0,
       createdAt: expect.any(Date),
-      updatedAt: expect.any(Date)
+      updatedAt: expect.any(Date),
     });
   });
 
@@ -112,9 +116,14 @@ describe('CreateShortUrlService', () => {
     const stopFn = jest.fn();
     metricsService.startTimerForShortenRequest.mockReturnValue(stopFn);
     loadUrlRepo.findOne.mockResolvedValueOnce(null);
-    createUrlRepo.create.mockResolvedValueOnce({ ...shortUrlMock, userId: undefined });
+    createUrlRepo.create.mockResolvedValueOnce({
+      ...shortUrlMock,
+      userId: undefined,
+    });
 
-    const result = await service.execute({ originalUrl: 'https://example.com' });
+    const result = await service.execute({
+      originalUrl: 'https://example.com',
+    });
 
     expect(userService.execute).not.toHaveBeenCalled();
     expect(createUrlRepo.create).toHaveBeenCalledWith({
@@ -151,7 +160,9 @@ describe('CreateShortUrlService', () => {
       shortCode: 'def456',
     });
 
-    const result = await service.execute({ originalUrl: 'https://example.com' });
+    const result = await service.execute({
+      originalUrl: 'https://example.com',
+    });
 
     expect(loadUrlRepo.findOne).toHaveBeenCalledTimes(2);
     expect(result.shortenerUrl).toBe('http://localhost/def456');

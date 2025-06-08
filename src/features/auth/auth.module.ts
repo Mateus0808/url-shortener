@@ -10,10 +10,10 @@ import { AccessTokenStrategy } from './strategies/access-token.strategy';
 
 @Module({
   imports: [
-    UserModule, 
-    JwtAdapterModule, 
+    UserModule,
+    JwtAdapterModule,
     HasherModule,
-    PassportModule.register({ defaultStrategy: 'jwt' })
+    PassportModule.register({ defaultStrategy: 'jwt' }),
   ],
   controllers: [AuthController],
   providers: [
@@ -21,8 +21,8 @@ import { AccessTokenStrategy } from './strategies/access-token.strategy';
       provide: ISignInServiceToken,
       useClass: SignInService,
     },
-    AccessTokenStrategy
+    AccessTokenStrategy,
   ],
-  exports: []
+  exports: [],
 })
 export class AuthModule {}

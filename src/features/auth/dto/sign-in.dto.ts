@@ -6,6 +6,6 @@ export class SignInDto {
   email: string;
 
   @IsString()
-  @IsNotEmpty({ message: 'A senha é obrigatória'})
+  @IsNotEmpty({ message: 'A senha é obrigatória' })
   password: string;
 }

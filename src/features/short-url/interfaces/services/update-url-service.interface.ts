@@ -8,7 +8,10 @@ export interface UpdateUrlParams {
 export interface UpdateShortUrlResponse extends ShortUrlDatabase {}
 
 export interface IUpdateUrlService {
-  execute: (params: UpdateUrlParams, userId: string) => Promise<UpdateShortUrlResponse>
+  execute: (
+    params: UpdateUrlParams,
+    userId: string,
+  ) => Promise<UpdateShortUrlResponse>;
 }
 
 export const IUpdateUrlServiceToken = 'IUpdateUrlServiceToken';

@@ -1,15 +1,45 @@
-import { Controller, Post, Body, Req, UseGuards, Inject, Get, Param, Patch, Delete, Res } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Req,
+  UseGuards,
+  Inject,
+  Get,
+  Param,
+  Patch,
+  Delete,
+  Res,
+} from '@nestjs/common';
 import { CreateShortUrlDto } from './dto/create-short-url.dto';
 import { Request, Response } from 'express';
-import { ICreateShortUrlService, ICreateShortUrlServiceToken } from './interfaces/services/create-short-url-service.interface';
-import { AccessTokenGuard, OptionalAuthGuard } from 'src/common/guards/access-token.guard';
-import { IListUrlsByUserService, IListUrlsByUserServiceToken } from './interfaces/services/list-url-service.interface';
-import { IDeleteUrlService, IDeleteUrlServiceToken } from './interfaces/services/delete-url-service.interface';
-import { IUpdateUrlService, IUpdateUrlServiceToken } from './interfaces/services/update-url-service.interface';
+import {
+  ICreateShortUrlService,
+  ICreateShortUrlServiceToken,
+} from './interfaces/services/create-short-url-service.interface';
+import {
+  AccessTokenGuard,
+  OptionalAuthGuard,
+} from 'src/common/guards/access-token.guard';
+import {
+  IListUrlsByUserService,
+  IListUrlsByUserServiceToken,
+} from './interfaces/services/list-url-service.interface';
+import {
+  IDeleteUrlService,
+  IDeleteUrlServiceToken,
+} from './interfaces/services/delete-url-service.interface';
+import {
+  IUpdateUrlService,
+  IUpdateUrlServiceToken,
+} from './interfaces/services/update-url-service.interface';
 import { UpdateShortUrlDto } from './dto/update-short-url.dto';
 import { UnauthorizedError } from 'src/common/errors/unauthorized-error/unauthorized-error';
 import { User } from '../user/user.entity';
-import { IIncrementClickService, IIncrementClickServiceToken } from './interfaces/services/increment-clicks-service.interface';
+import {
+  IIncrementClickService,
+  IIncrementClickServiceToken,
+} from './interfaces/services/increment-clicks-service.interface';
 
 @Controller('short-url')
 export class ShortUrlController {
@@ -27,7 +57,7 @@ export class ShortUrlController {
     private readonly updateService: IUpdateUrlService,
 
     @Inject(IIncrementClickServiceToken)
-    private readonly incrementClickService: IIncrementClickService
+    private readonly incrementClickService: IIncrementClickService,
   ) {}
 
   @Post()
@@ -49,10 +79,13 @@ export class ShortUrlController {
   async updateUrl(
     @Param('id') id: string,
     @Body() dto: UpdateShortUrlDto,
-    @Req() req: Request
+    @Req() req: Request,
   ) {
     const user = req.user as User;
-    const updatedUrl = await this.updateService.execute({ id, data: dto }, user.id);
+    const updatedUrl = await this.updateService.execute(
+      { id, data: dto },
+      user.id,
+    );
     return updatedUrl;
   }
 
@@ -60,7 +93,7 @@ export class ShortUrlController {
   @UseGuards(AccessTokenGuard)
   async deleteUrl(@Param('id') id: string, @Req() req: Request) {
     const user = req.user as User;
-    if (!user) throw new UnauthorizedError('Usuário precisa está autenticado')
+    if (!user) throw new UnauthorizedError('Usuário precisa está autenticado');
 
     await this.deleteService.execute(id, user.id);
 

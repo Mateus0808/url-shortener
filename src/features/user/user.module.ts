@@ -8,9 +8,7 @@ import { IGetUserByParamServiceToken } from './interfaces/services/get-user-by-p
 import { GetUserService } from './services/get-user-by-param.service';
 
 @Module({
-  imports: [
-    UserDatabaseModule, HasherModule
-  ],
+  imports: [UserDatabaseModule, HasherModule],
   controllers: [UserController],
   providers: [
     {
@@ -20,8 +18,8 @@ import { GetUserService } from './services/get-user-by-param.service';
     {
       provide: IGetUserByParamServiceToken,
       useClass: GetUserService,
-    }
+    },
   ],
-  exports: [IGetUserByParamServiceToken]
+  exports: [IGetUserByParamServiceToken],
 })
 export class UserModule {}

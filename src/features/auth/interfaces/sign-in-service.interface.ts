@@ -1,13 +1,13 @@
-import { SignInDto } from "../dto/sign-in.dto"
+import { SignInDto } from '../dto/sign-in.dto';
 
 export interface UserSignInResponse {
-  token: string
+  token: string;
 }
 
 export interface UserSignInParams extends SignInDto {}
 
 export interface ISignInService {
-  signIn(signInDto: UserSignInParams): Promise<UserSignInResponse>
+  signIn(signInDto: UserSignInParams): Promise<UserSignInResponse>;
 }
 
-export const ISignInServiceToken = 'ISignInServiceToken'
+export const ISignInServiceToken = 'ISignInServiceToken';

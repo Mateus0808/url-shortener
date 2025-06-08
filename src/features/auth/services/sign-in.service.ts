@@ -1,9 +1,22 @@
-import { Inject, Injectable } from "@nestjs/common";
-import { ISignInService, UserSignInParams, UserSignInResponse } from "../interfaces/sign-in-service.interface";
-import { IGetUserByParamService, IGetUserByParamServiceToken } from "../../user/interfaces/services/get-user-by-param.interface";
-import { IHashComparer, IHashComparerToken } from "../../user/interfaces/hasher/hasher.interface";
-import { UnauthorizedError } from "../../../common/errors/unauthorized-error/unauthorized-error";
-import { IJwtGenerateTokens, IJwtGenerateTokensToken } from "../interfaces/jwt/jwt.interface";
+import { Inject, Injectable } from '@nestjs/common';
+import {
+  ISignInService,
+  UserSignInParams,
+  UserSignInResponse,
+} from '../interfaces/sign-in-service.interface';
+import {
+  IGetUserByParamService,
+  IGetUserByParamServiceToken,
+} from '../../user/interfaces/services/get-user-by-param.interface';
+import {
+  IHashComparer,
+  IHashComparerToken,
+} from '../../user/interfaces/hasher/hasher.interface';
+import { UnauthorizedError } from '../../../common/errors/unauthorized-error/unauthorized-error';
+import {
+  IJwtGenerateTokens,
+  IJwtGenerateTokensToken,
+} from '../interfaces/jwt/jwt.interface';
 
 @Injectable()
 export class SignInService implements ISignInService {
@@ -29,13 +42,13 @@ export class SignInService implements ISignInService {
     const payload = {
       id: user.id,
       name: user.name,
-      email: user.email
+      email: user.email,
     };
 
     const tokens = await this.jwtService.generateTokens(payload);
 
     return {
-      token: tokens.token
+      token: tokens.token,
     };
   }
 }
